@@ -39,19 +39,18 @@ app.post('/tweets', ((req, res) => {
     }
     
     tweets.push(tweetsData);
-    console.log("array tweets: ", tweets);
-    res.status(201).send(tweets);
+    res.status(201).send();
 }));
 
 app.get('/tweets', ((req, res) => {
     let tweetsList = [];
-    
+
     if(tweets.length === 0){
         res.status(201).send(tweetsList);
         return;
     }
 
-    tweets.map((tweet, index) => {
+    tweets.map((tweet) => {
         const user = users.find(user => user.username === tweet.username);
         if(user) {
             tweetsList.push({
