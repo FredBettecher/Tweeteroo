@@ -10,14 +10,12 @@ const PORT = 5000;
 const users = [];
 const tweets = [];
 let logged = false;
-let tweetsList = [];
 
 app.post('/sign-up', ((req, res) => {
     const userData = req.body;
 
     if(userData.username === "" || userData.avatar === "") {
         res.status(422).send();
-        alert("O usuário deve preencher todos os campos");
         return;
     }
 
@@ -37,34 +35,35 @@ app.post('/tweets', ((req, res) => {
 
     if(tweetsData.username === '' || tweetsData.tweet === '') {
         res.status(422).send();
-        alert("O usuário deve preencher todos os campos");
         return;
     }
     
     tweets.push(tweetsData);
-    console.log(tweets);
-    res.status(201).send("OK");
+    console.log("array tweets: ", tweets);
+    res.status(201).send(tweets);
 }));
 
 app.get('/tweets', ((req, res) => {
-    let newTweetsList = [];
-
+    let tweetsList = [];
+    
     if(tweets.length === 0){
-        res.status(201).send(newTweetsList);
+        res.status(201).send(tweetsList);
         return;
     }
 
     tweets.map((tweet, index) => {
-        tweetsList.push({
-            username: tweet.username,
-            avatar: users[index].avatar,
-            tweet: tweet.tweet
-        })
+        const user = users.find(user => user.username === tweet.username);
+        if(user) {
+            tweetsList.push({
+                username: tweet.username,
+                avatar: user.avatar,
+                tweet: tweet.tweet
+            })
+        }
+        
     });
 
-    newTweetsList.push(tweetsList.reverse());
-    res.send(newTweetsList.slice(-10));
-    res.status(201).send();
+    res.status(201).send(tweetsList.slice(-10).reverse());
 }));
 
 app.listen(PORT);
