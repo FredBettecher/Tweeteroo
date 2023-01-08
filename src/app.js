@@ -50,8 +50,8 @@ app.get('/tweets', ((req, res) => {
     let newTweetsList = [];
 
     if(tweets.length === 0){
-        res.status(201).send();
-        return [];
+        res.status(201).send(newTweetsList);
+        return;
     }
 
     tweets.map((tweet, index) => {
