@@ -49,6 +49,10 @@ app.post('/tweets', ((req, res) => {
 app.get('/tweets', ((req, res) => {
     let newTweetsList = [];
 
+    if(tweets.length === 0){
+        return [];
+    }
+
     tweets.map((tweet, index) => {
         tweetsList.push({
             username: tweet.username,
