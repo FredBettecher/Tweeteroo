@@ -50,6 +50,7 @@ app.get('/tweets', ((req, res) => {
     let newTweetsList = [];
 
     if(tweets.length === 0){
+        res.status(201).send();
         return [];
     }
 
@@ -62,8 +63,8 @@ app.get('/tweets', ((req, res) => {
     });
 
     newTweetsList.push(tweetsList.reverse());
-
     res.send(newTweetsList.slice(-10));
+    res.status(201).send();
 }));
 
 app.listen(PORT);
