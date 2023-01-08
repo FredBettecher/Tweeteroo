@@ -10,6 +10,7 @@ const PORT = 5000;
 const users = [];
 const tweets = [];
 let logged = false;
+let tweetsList = [];
 
 app.post('/sign-up', ((req, res) => {
     const userData = req.body;
@@ -43,6 +44,22 @@ app.post('/tweets', ((req, res) => {
     tweets.push(tweetsData);
     console.log(tweets);
     res.status(201).send("OK");
+}));
+
+app.get('/tweets', ((req, res) => {
+    let newTweetsList = [];
+
+    tweets.map((tweet, index) => {
+        tweetsList.push({
+            username: tweet.username,
+            avatar: users[index].avatar,
+            tweet: tweet.tweet
+        })
+    });
+
+    newTweetsList.push(tweetsList.reverse());
+
+    res.send(newTweetsList.slice(-10));
 }));
 
 app.listen(PORT);
